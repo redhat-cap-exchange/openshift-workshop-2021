@@ -1,4 +1,4 @@
-# openshift-workshop-2021
+# Openshift Workshop 2021
 
 Guides, links and code snippets for the Red Hat OpenShift Cloud Native Developer workshop
 
@@ -13,7 +13,7 @@ The intention of the workshop is to explain how to use Red Hat OpenShift to buil
 
 It is not the goal of the workshop to teach e.g. how to develop Java Spring Boot applications or such. The example application used in the workshop are not in focus and are only used to explain build, CI/CD and other OpenShift related concepts.
 
-## Workshop Environment
+### Workshop Environment
 
 The workshop uses Red Hat OpenShift cluster as the sole environment. All demos and lab activities use the cluster. Red Hat CodeReady workspaces is used as a hosted development environment and there is no need to install any development tools locally.
 
@@ -36,7 +36,7 @@ However, if someone wants to run the labs from her/his personal laptop, the foll
 * https://mirror.openshift.com/pub/openshift-v4/clients/pipeline/0.13.1/tkn-windows-amd64-0.13.1.zip
 
 
-## Hosted development and CI/CD tools
+### Hosted development and CI/CD tools
 
 To support the workshop, the following OpenShift add-ons will be used:
 
@@ -47,12 +47,12 @@ To support the workshop, the following OpenShift add-ons will be used:
 * Gogs Git server
 
 
-## Overview OpenShift & Cloud-Native Development
+### Overview OpenShift & Cloud-Native Development
 
-**SLIDE DECK**
+**LINK TO SLIDE DECK**
 
 
-## Explore different ways to build & deploy an app 
+### Explore different ways to build & deploy an app 
 
 #### Intermission: OpenShift Web Console orientation
 
@@ -65,11 +65,11 @@ To support the workshop, the following OpenShift add-ons will be used:
 #### Lab 3: Using S2I, deploy from GitHub, anatomy of an S2I image, customize the build process
 
 
-## CI/CD pipelines and GitOps (Tekton & ArgoCD)
+### CI/CD pipelines and GitOps (Tekton & ArgoCD)
 
 #### Lab 6: OpenShift Pipelines Tutorial
 https://github.com/openshift/pipelines-tutorial/tree/release-tech-preview-2
 
-## Overview Operator Framework and Operator SDK
+### Overview Operator Framework and Operator SDK
 
 #### Lab 6: Install a simple Operator and self-provision instances
