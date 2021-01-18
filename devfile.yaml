@@ -4,8 +4,8 @@ metadata:
 #projects:
 #  - name: spring-boot-http-booster
 #    source:
-#      type: git
-#      location: "https://github.com/redhat-capgemini-exchange/spring-boot-http-booster.git"
+#      type: zip
+#      location: 'https://devfile-registry-openshift-workspaces.apps.cluster-ccp-6e5e.ccp-6e5e.example.opentlc.com/resources/spring-boot-http-booster-spring-boot-http-booster-sb-2.3.x.zip'
 components:
   - id: redhat/java8/latest
     type: chePlugin
@@ -21,28 +21,28 @@ components:
       - name: m2
         containerPath: /home/jboss/.m2
     alias: maven
-    image: "registry.redhat.io/codeready-workspaces/plugin-java8-rhel8@sha256:5b2df65e7ec4676a43b763b431744790a89acd5c6d197316b694693b58c19770"
+    image: 'registry.redhat.io/codeready-workspaces/plugin-java8-rhel8@sha256:5b2df65e7ec4676a43b763b431744790a89acd5c6d197316b694693b58c19770'
     env:
-      - value: "-XX:MaxRAMPercentage=50.0 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10 -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Dsun.zip.disableMemoryMapping=true -Xms20m -Djava.security.egd=file:/dev/./urandom -Duser.home=/home/jboss"
+      - value: '-XX:MaxRAMPercentage=50.0 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10 -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Dsun.zip.disableMemoryMapping=true -Xms20m -Djava.security.egd=file:/dev/./urandom -Duser.home=/home/jboss'
         name: JAVA_OPTS
       - value: $(JAVA_OPTS)
         name: MAVEN_OPTS
 commands:
   - name: 1. Build
     actions:
-      - workdir: "${CHE_PROJECTS_ROOT}/spring-boot-http-booster"
+      - workdir: '${CHE_PROJECTS_ROOT}/spring-boot-http-booster'
         type: exec
         command: 'MAVEN_OPTS="-Xmx200m" && mvn -Duser.home=${HOME} -DskipTests clean install'
         component: maven
   - name: 2. Run
     actions:
-      - workdir: "${CHE_PROJECTS_ROOT}/spring-boot-http-booster"
+      - workdir: '${CHE_PROJECTS_ROOT}/spring-boot-http-booster'
         type: exec
         command: 'MAVEN_OPTS="-Xmx200m" && mvn -Duser.home=${HOME} spring-boot:run'
         component: maven
   - name: 3. Run in debug mode
     actions:
-      - workdir: "${CHE_PROJECTS_ROOT}/spring-boot-http-booster"
+      - workdir: '${CHE_PROJECTS_ROOT}/spring-boot-http-booster'
         type: exec
         command: |-
           mvn  -Duser.home=${HOME} spring-boot:run -Dspring-boot.run.jvmArguments="-Xdebug
@@ -50,13 +50,13 @@ commands:
         component: maven
   - name: 4. Run tests
     actions:
-      - workdir: "${CHE_PROJECTS_ROOT}/spring-boot-http-booster"
+      - workdir: '${CHE_PROJECTS_ROOT}/spring-boot-http-booster'
         type: exec
         command: 'MAVEN_OPTS="-Xmx200m" && mvn -Duser.home=${HOME} verify'
         component: maven
   - name: 5. Log into deployment cluster
     actions:
-      - workdir: "${CHE_PROJECTS_ROOT}/spring-boot-http-booster"
+      - workdir: '${CHE_PROJECTS_ROOT}/spring-boot-http-booster'
         type: exec
         command: |
           echo
@@ -66,9 +66,9 @@ commands:
         component: maven
   - name: 6. Deploy to OpenShift
     actions:
-      - workdir: "${CHE_PROJECTS_ROOT}/spring-boot-http-booster"
+      - workdir: '${CHE_PROJECTS_ROOT}/spring-boot-http-booster'
         type: exec
-        command: "mvn fabric8:deploy -Popenshift -DskipTests"
+        command: 'mvn fabric8:deploy -Popenshift -DskipTests'
         component: maven
   - name: Debug remote java application
     actions:
@@ -84,3 +84,4 @@ commands:
                "port": 5005
              }]
            }
+        type: vscode-launch
