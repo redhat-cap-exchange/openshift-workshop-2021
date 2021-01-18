@@ -68,7 +68,67 @@ To support the workshop, the following OpenShift add-ons will be used:
 ### CI/CD pipelines and GitOps (Tekton & ArgoCD)
 
 #### Lab 6: OpenShift Pipelines Tutorial
+
+#### Create and run a pipeline
+
 https://github.com/openshift/pipelines-tutorial/tree/release-tech-preview-2
+
+```shell
+oc new-project pipelines-tutorial
+
+oc get serviceaccount pipeline
+
+oc create -f https://raw.githubusercontent.com/openshift/pipelines-tutorial/release-tech-preview-2/01_pipeline/01_apply_manifest_task.yaml
+
+oc create -f https://raw.githubusercontent.com/openshift/pipelines-tutorial/release-tech-preview-2/01_pipeline/02_update_deployment_task.yaml
+
+tkn task ls
+
+tkn clustertasks ls
+
+oc create -f https://raw.githubusercontent.com/openshift/pipelines-tutorial/release-tech-preview-2/01_pipeline/04_pipeline.yaml
+
+tkn pipeline ls
+
+oc create -f https://raw.githubusercontent.com/openshift/pipelines-tutorial/release-tech-preview-2/01_pipeline/03_persistent_volume_claim.yaml
+
+tkn pipeline start build-and-deploy \
+    -w name=shared-workspace,claimName=source-pvc \
+    -p deployment-name=vote-api \
+    -p git-url=http://github.com/openshift-pipelines/vote-api.git \
+    -p IMAGE=image-registry.openshift-image-registry.svc:5000/pipelines-tutorial/vote-api
+
+tkn pipeline start build-and-deploy \
+    -w name=shared-workspace,claimName=source-pvc \
+    -p deployment-name=vote-ui \
+    -p git-url=http://github.com/openshift-pipelines/vote-ui.git \
+    -p IMAGE=image-registry.openshift-image-registry.svc:5000/pipelines-tutorial/vote-ui
+
+tkn pipeline list
+
+tkn pipelinerun ls
+
+tkn pipeline logs -f
+```
+
+To repeat the last pipeline run:
+
+```shell
+tkn pipeline start build-and-deploy --last
+```
+
+#### Add triggers
+
+```shell
+oc create -f https://raw.githubusercontent.com/openshift/pipelines-tutorial/release-tech-preview-2/03_triggers/02_template.yaml
+
+oc create -f https://raw.githubusercontent.com/openshift/pipelines-tutorial/release-tech-preview-2/03_triggers/01_binding.yaml
+
+oc create -f https://raw.githubusercontent.com/openshift/pipelines-tutorial/release-tech-preview-2/03_triggers/03_event_listener.yaml
+
+
+
+```
 
 ### Overview Operator Framework and Operator SDK
 
