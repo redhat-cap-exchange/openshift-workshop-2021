@@ -117,7 +117,7 @@ oc logout
 
 oc login <OPENSHIFT API URL>
 
-oc project userXXX-workspace
+oc project userXXX-codeready
 
 ```
 
@@ -128,6 +128,9 @@ mvn fabric8:deploy -Popenshift -DskipTests
 #### Lab 4: Using S2I, deploy from GitHub, anatomy of an S2I image, customize the build process
 
 * Deploy from GitHub
+https://github.com/redhat-capgemini-exchange/spring-boot-http-booster
+Builder Image Version: openjdk-11-ubi8
+
 
 ### CI/CD pipelines and GitOps
 
