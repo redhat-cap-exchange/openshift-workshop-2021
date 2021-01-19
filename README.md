@@ -117,7 +117,7 @@ oc logout
 
 oc login <OPENSHIFT API URL>
 
-oc project userXXX-codeready
+oc new-project userXXX-lab3
 
 ```
 
