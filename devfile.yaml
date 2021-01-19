@@ -1,11 +1,11 @@
 apiVersion: 1.0.0
 metadata:
   generateName: spring-boot-http-booster-
-#projects:
-#  - name: spring-boot-http-booster
-#    source:
-#      type: zip
-#      location: 'https://devfile-registry-openshift-workspaces.apps.cluster-ccp-6e5e.ccp-6e5e.example.opentlc.com/resources/spring-boot-http-booster-spring-boot-http-booster-sb-2.3.x.zip'
+projects:
+  - name: spring-boot-http-booster
+    source:
+      type: git
+      location: 'https://github.com/redhat-capgemini-exchange/spring-boot-http-booster.git'
 components:
   - id: redhat/java8/latest
     type: chePlugin

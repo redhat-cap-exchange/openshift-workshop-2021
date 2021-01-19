@@ -1,6 +1,6 @@
 # Sonatype Nexus 3
 
-Install a Nexus 3 instance:
+### Install a Nexus 3 instance:
 
 * [Sonatype/Nexus3](https://hub.docker.com/r/sonatype/nexus3)
 * [Nexus and Maven](https://blog.sonatype.com/using-nexus-3-as-your-repository-part-1-maven-artifacts)
@@ -23,8 +23,16 @@ oc rollout resume deployment/nexus3
 
 ```
 
+### Credentials
+
 Get the admin password from the pod's terminal:
 
 ```shell
 cat /nexus-data/admin.password
+```
+
+### Configure workspace
+
+```shell
+cp /projects/spring-boot-http-booster/.m2/settings.xml /home/jboss/.m2/settings.xml
 ```

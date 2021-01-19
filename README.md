@@ -44,13 +44,12 @@ To support the workshop, the following OpenShift add-ons will be used:
 * Red Hat Pipelines
 * GitOps tools (ArgoCD)
 * Sonatype Nexus 3
-* Gogs Git server
+* Gitea Git server
 
 
 ### Overview OpenShift & Cloud-Native Development
 
 **LINK TO SLIDE DECK**
-
 
 ### Explore different ways to build & deploy an app 
 
@@ -58,78 +57,82 @@ To support the workshop, the following OpenShift add-ons will be used:
 
 #### Lab 1: Deploy a container from a registry, using the command line
 
+```shell
+
+oc new-project lab1
+
+oc new-app sonatype/nexus3
+
+oc rollout pause deployment/nexus3 
+
+oc expose service/nexus3
+
+oc set probe deployment/nexus3 --liveness --failure-threshold 3 --initial-delay-seconds 180 -- echo ok
+oc set probe deployment/nexus3 --readiness --failure-threshold 3 --initial-delay-seconds 120 --get-url=http://:8081/nexus/content/groups/public
+
+oc rollout resume deployment/nexus3 
+
+```
+
 #### Intermission: On-board the sample project into RH CodeReady Workspace
 
-#### Lab 2: mvn install, using Fabric8
+##### Step 1: Create a workspace
 
-#### Lab 3: Using S2I, deploy from GitHub, anatomy of an S2I image, customize the build process
+* Get Started -> Custom Workspace -> Select 'Java Spring Boot'
 
+* Modify the devfile
 
-### CI/CD pipelines and GitOps (Tekton & ArgoCD)
+Look for (ca. line 7):
 
-#### Lab 6: OpenShift Pipelines Tutorial
-
-#### Create and run a pipeline
-
-https://github.com/openshift/pipelines-tutorial/tree/release-tech-preview-2
-
-```shell
-oc new-project pipelines-tutorial
-
-oc get serviceaccount pipeline
-
-oc create -f https://raw.githubusercontent.com/openshift/pipelines-tutorial/release-tech-preview-2/01_pipeline/01_apply_manifest_task.yaml
-
-oc create -f https://raw.githubusercontent.com/openshift/pipelines-tutorial/release-tech-preview-2/01_pipeline/02_update_deployment_task.yaml
-
-tkn task ls
-
-tkn clustertasks ls
-
-oc create -f https://raw.githubusercontent.com/openshift/pipelines-tutorial/release-tech-preview-2/01_pipeline/04_pipeline.yaml
-
-tkn pipeline ls
-
-oc create -f https://raw.githubusercontent.com/openshift/pipelines-tutorial/release-tech-preview-2/01_pipeline/03_persistent_volume_claim.yaml
-
-tkn pipeline start build-and-deploy \
-    -w name=shared-workspace,claimName=source-pvc \
-    -p deployment-name=vote-api \
-    -p git-url=http://github.com/openshift-pipelines/vote-api.git \
-    -p IMAGE=image-registry.openshift-image-registry.svc:5000/pipelines-tutorial/vote-api
-
-tkn pipeline start build-and-deploy \
-    -w name=shared-workspace,claimName=source-pvc \
-    -p deployment-name=vote-ui \
-    -p git-url=http://github.com/openshift-pipelines/vote-ui.git \
-    -p IMAGE=image-registry.openshift-image-registry.svc:5000/pipelines-tutorial/vote-ui
-
-tkn pipeline list
-
-tkn pipelinerun ls
-
-tkn pipeline logs -f
+```yaml
+type: zip
+location: 'https://devfile-registry-openshift-workspaces.apps.cluster-ccp-6e5e.ccp-6e5e.example.opentlc.com/resources/spring-boot-http-booster-spring-boot-http-booster-sb-2.3.x.zip'
 ```
 
-To repeat the last pipeline run:
+Replace with:
 
-```shell
-tkn pipeline start build-and-deploy --last
+```yaml
+type: git
+location: 'https://github.com/redhat-capgemini-exchange/spring-boot-http-booster.git'
 ```
 
-#### Add triggers
+##### Step 2: Configure mvn
+
+* Local build & run
+
+In the workspace, open a new terminal:
 
 ```shell
-oc create -f https://raw.githubusercontent.com/openshift/pipelines-tutorial/release-tech-preview-2/03_triggers/02_template.yaml
-
-oc create -f https://raw.githubusercontent.com/openshift/pipelines-tutorial/release-tech-preview-2/03_triggers/01_binding.yaml
-
-oc create -f https://raw.githubusercontent.com/openshift/pipelines-tutorial/release-tech-preview-2/03_triggers/03_event_listener.yaml
+cp /projects/spring-boot-http-booster/.m2/settings.xml /home/jboss/.m2/settings.xml
+```
 
 
+#### Lab 3: mvn install, using Fabric8
+
+* Deploy to OpenShift
+* Log into OpenShift from the workspace console
+
+```shell
+oc logout
+
+oc login <OPENSHIFT API URL>
+
+oc project userXXX-workspace
 
 ```
+
+```shell
+mvn fabric8:deploy -Popenshift -DskipTests
+```
+
+#### Lab 4: Using S2I, deploy from GitHub, anatomy of an S2I image, customize the build process
+
+* Deploy from GitHub
+
+### CI/CD pipelines and GitOps
+
+Wait for day 2 !
 
 ### Overview Operator Framework and Operator SDK
 
-#### Lab 6: Install a simple Operator and self-provision instances
+Wait for day 2 !
